@@ -6,7 +6,7 @@ using System;
 
 namespace Tarteeb.Importer.Models.Clients
 {
-    internal class Client
+    public class Client
     {
         public Guid Id { get; set; }
         public string Firstname { get; set; }
