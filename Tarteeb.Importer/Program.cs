@@ -3,13 +3,32 @@
 // Powering True Leadership
 //===============================
 
+using System;
+using System.Threading.Tasks;
+using Tarteeb.Importer.Brokers.Storages;
+using Tarteeb.Importer.Models.Clients;
+
 namespace Tarteeb.Importer
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var client = new Client
+            {
+                Id = Guid.NewGuid(),
+                Firstname = "Abdulloh",
+                Lastname = "Mahmudov",
+                PhoneNumber = "1234567890",
+                Email = "null",
+                BirthDate = DateTime.Now,
+                GroupId = Guid.NewGuid()
+            };
+
+            using (var storageBroker = new StorageBroker())
+            {
+                await storageBroker.InsertClientAsync(client);
+            }
         }
     }
 }
