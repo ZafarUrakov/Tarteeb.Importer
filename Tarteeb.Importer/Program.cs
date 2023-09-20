@@ -4,6 +4,7 @@
 //===============================
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Tarteeb.Importer.Brokers.Storages;
 using Tarteeb.Importer.Models.Clients;
@@ -17,17 +18,23 @@ namespace Tarteeb.Importer
             var client = new Client
             {
                 Id = Guid.NewGuid(),
-                Firstname = "Abdulloh",
-                Lastname = "Mahmudov",
-                PhoneNumber = "1234567890",
-                Email = "null",
+                Firstname = "Amina",
+                Lastname = "Mahmudova",
+                PhoneNumber = "12345617890",
+                Email = "amina@inom.com",
                 BirthDate = DateTime.Now,
                 GroupId = Guid.NewGuid()
             };
 
             using (var storageBroker = new StorageBroker())
             {
-                await storageBroker.InsertClientAsync(client);
+                Client persistedClient = await storageBroker.InsertClientAsync(client);
+                IQueryable<Client> dbClients = storageBroker.SelectAllClients();
+                
+                foreach(var dbClient in dbClients)
+                {
+                    Console.WriteLine("name: " + dbClient.Firstname + " email: " + dbClient.Email);
+                }
             }
         }
     }
