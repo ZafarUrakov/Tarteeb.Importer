@@ -30,8 +30,8 @@ namespace Tarteeb.Importer
             {
                 Client persistedClient = await storageBroker.InsertClientAsync(client);
                 IQueryable<Client> dbClients = storageBroker.SelectAllClients();
-                
-                foreach(var dbClient in dbClients)
+
+                foreach (var dbClient in dbClients)
                 {
                     Console.WriteLine("name: " + dbClient.Firstname + " email: " + dbClient.Email);
                 }
