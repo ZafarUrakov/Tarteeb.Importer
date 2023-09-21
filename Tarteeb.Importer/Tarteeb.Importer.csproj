@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="EFxceptions" Version="0.4.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
+    <PackageReference Include="Xeption" Version="2.5.0" />
   </ItemGroup>
 
 </Project>
