@@ -28,7 +28,7 @@ namespace Tarteeb.Importer.Brokers.Storages
         }
 
         public IQueryable<Client> SelectAllClients() =>
-            return this.Clients.AsQueryable();
+            this.Clients.AsQueryable();
 
         public async Task<Client> SelectClientByIdAsync(Guid clientId) =>
             await this.Clients.FindAsync(clientId);
