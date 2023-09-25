@@ -26,6 +26,8 @@ namespace Tarteeb.Importer.Services.Clients
             this.loggingBroker = new LoggingBroker();
         }
 
+        /// <exception cref="NullClientException"></exception>
+        /// <exception cref="InvalidClientException"></exception>
         internal Task<Client> AddClientAsync(Client client)
         {
             if (client == null)
