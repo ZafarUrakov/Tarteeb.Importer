@@ -1,5 +1,4 @@
-﻿
-//=================================
+﻿//=================================
 // Copyright (c) Tarteeb LLC.
 // Powering True Leadership
 //===============================
@@ -15,15 +14,17 @@ using Tarteeb.Importer.Models.Clients.Exceptions;
 
 namespace Tarteeb.Importer.Services.Clients
 {
-    internal class ClientService : DateTimeBroker
+    internal class ClientService
     {
         private readonly StorageBroker storageBroker;
         private readonly LoggingBroker loggingBroker;
+        private readonly DateTimeBroker dateTimeBroker;
 
         public ClientService()
         {
             this.storageBroker = new StorageBroker();
             this.loggingBroker = new LoggingBroker();
+            this.dateTimeBroker = new DateTimeBroker();
         }
 
         /// <exception cref="NullClientException"></exception>
@@ -39,10 +40,12 @@ namespace Tarteeb.Importer.Services.Clients
                 (Rule: IsInvalid(client.Id), Parameter: nameof(client.Id)),
                 (Rule: IsInvalid(client.Firstname), Parameter: nameof(client.Firstname)),
                 (Rule: IsInvalid(client.Lastname), Parameter: nameof(client.Lastname)),
+                (Rule: IsInvalid(client.BirthDate), Parameter: nameof(client.BirthDate)),
+                (Rule: IsLessThen12(client.BirthDate), Parameter: nameof(client.BirthDate)),
+                (Rule: IsInvalid(client.GroupId), Parameter: nameof(client.GroupId)),
                 (Rule: IsInvalid(client.Email), Parameter: nameof(client.Email)));
 
             Validate(
-                (Rule: IsInvalidBirthData(client.BirthDate), Parameter: nameof(client.BirthDate)),
                 (Rule: IsInvalidEmail(client.Email), Parameter: nameof(client.Email)),
                 (Rule: IsInvalidPhoneNumber(client.PhoneNumber), Parameter: nameof(client.PhoneNumber)));
 
@@ -60,6 +63,26 @@ namespace Tarteeb.Importer.Services.Clients
             Condition = String.IsNullOrWhiteSpace(text),
             Message = "Text is required"
         };
+
+        private dynamic IsInvalid(DateTimeOffset date) => new
+        {
+            Condition = date == default,
+            Message = "Date is required"
+        };
+
+        private dynamic IsLessThen12(DateTimeOffset date) => new
+        {
+            Condition = IsAgeLessThen12(date),
+            Message = "Age is less than 12"
+        };
+
+        private bool IsAgeLessThen12(DateTimeOffset date)
+        {
+            DateTimeOffset now = this.dateTimeBroker.GetDateTimeOffset();
+            int age = (now - date).Days / 365;
+
+            return age < 12;
+        }
 
         private dynamic IsInvalidEmail(string email) => new
         {
