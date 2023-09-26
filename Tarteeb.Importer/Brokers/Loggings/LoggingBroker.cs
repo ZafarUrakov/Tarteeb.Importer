@@ -1,7 +1,7 @@
 ﻿using System;
 using Tarteeb.Importer.Models.Clients.Exceptions;
 
-namespace Tarteeb.Importer.Brokers.Logging
+namespace Tarteeb.Importer.Brokers.Loggings
 {
     internal class LoggingBroker
     {
