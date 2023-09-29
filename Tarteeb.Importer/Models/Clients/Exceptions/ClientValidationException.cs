@@ -10,7 +10,7 @@ namespace Tarteeb.Importer.Models.Clients.Exceptions
     internal partial class ClientValidationException : Xeption
     {
         public ClientValidationException(Xeption innerException)
-            : base(message: "Client validation error occured. Fix the errors and try again.", 
+            : base(message: "Client validation error occured. Fix the errors and try again.",
                   innerException)
         { }
     }

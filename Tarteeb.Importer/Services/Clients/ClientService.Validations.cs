@@ -5,8 +5,8 @@
 
 using System;
 using System.Text.RegularExpressions;
-using Tarteeb.Importer.Models.Clients.Exceptions;
 using Tarteeb.Importer.Models.Clients;
+using Tarteeb.Importer.Models.Clients.Exceptions;
 
 namespace Tarteeb.Importer.Services.Clients
 {

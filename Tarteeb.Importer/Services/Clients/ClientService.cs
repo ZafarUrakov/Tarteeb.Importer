@@ -8,7 +8,6 @@ using Tarteeb.Importer.Brokers.DataTimes;
 using Tarteeb.Importer.Brokers.Logging;
 using Tarteeb.Importer.Brokers.Storages;
 using Tarteeb.Importer.Models.Clients;
-using Tarteeb.Importer.Models.Clients.Exceptions;
 
 namespace Tarteeb.Importer.Services.Clients
 {
@@ -25,7 +24,6 @@ namespace Tarteeb.Importer.Services.Clients
             this.dateTimeBroker = new DateTimeBroker();
         }
 
-        /// <exception cref="ClientValidationException"></exception>
         internal Task<Client> AddClientAsync(Client client) =>
         TryCatch(() =>
         {
