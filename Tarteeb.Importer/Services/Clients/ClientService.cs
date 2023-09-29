@@ -5,7 +5,7 @@
 
 using System.Threading.Tasks;
 using Tarteeb.Importer.Brokers.DataTimes;
-using Tarteeb.Importer.Brokers.Logging;
+using Tarteeb.Importer.Brokers.Loggings;
 using Tarteeb.Importer.Brokers.Storages;
 using Tarteeb.Importer.Models.Clients;
 
