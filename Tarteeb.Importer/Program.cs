@@ -44,20 +44,19 @@ namespace Tarteeb.Importer
                 Console.WriteLine(persistedClient.Id);
 
             }
-            catch (ClientValidationException ClientValidationException)
+            catch (ClientValidationException ClientValidationException) when (ClientValidationException.InnerException is InvalidClientException invalidClientException)
             {
-                if (ClientValidationException.InnerException is InvalidClientException invalidClientXeception)
+                foreach (DictionaryEntry key in invalidClientException.Data)
                 {
-                    foreach (DictionaryEntry key in invalidClientXeception.Data)
-                    {
-                        string ErrorSummary = ((List<string>)key.Value)
-                            .Select((string value) => value).
-                            Aggregate((string current, string next) => current + ", " + next);
+                    string ErrorSummary = ((List<string>)key.Value)
+                        .Select((string value) => value).
+                        Aggregate((string current, string next) => current + ", " + next);
 
-                        Console.WriteLine(key.Key + " - " + ErrorSummary);
-                    }
-                    Console.WriteLine($"Message: {invalidClientXeception.Message}");
+                    Console.WriteLine(key.Key + " - " + ErrorSummary);
                 }
+
+                Console.WriteLine($"Message: {invalidClientException.Message}");
+
                 throw;
             }
             catch (ClientDependencyValidationException clientDependencyValidationException)
