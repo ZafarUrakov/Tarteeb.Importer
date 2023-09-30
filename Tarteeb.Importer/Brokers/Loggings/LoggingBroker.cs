@@ -10,7 +10,7 @@ namespace Tarteeb.Importer.Brokers.Loggings
 {
     internal class LoggingBroker
     {
-        public void LoggingError(NullClientException nullClientException) =>
-            Console.WriteLine(nullClientException.Message);
+        public void LoggingError(Exception exception) =>
+            Console.WriteLine(exception.Message);
     }
 }
