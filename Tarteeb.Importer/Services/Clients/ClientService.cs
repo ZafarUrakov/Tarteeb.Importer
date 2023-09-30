@@ -17,7 +17,7 @@ namespace Tarteeb.Importer.Services.Clients
         private readonly LoggingBroker loggingBroker;
         private readonly DateTimeBroker dateTimeBroker;
 
-        public ClientService()
+        public ClientService(StorageBroker storageBroker, DateTimeBroker dateTimeBroker)
         {
             this.storageBroker = new StorageBroker();
             this.loggingBroker = new LoggingBroker();
@@ -33,3 +33,13 @@ namespace Tarteeb.Importer.Services.Clients
         });
     }
 }
+
+
+
+
+
+
+
+
+
+
