@@ -53,6 +53,30 @@ namespace Tarteeb.Importer
                 }
                 Console.WriteLine($"Message: {invalidClientExceception.Message}");
             }
+            catch (ClientDependencyValidationException clientDependencyValidationException)
+            {
+                loggingBroker.LoggingError(clientDependencyValidationException);
+
+                throw clientDependencyValidationException;
+            }
+            catch (ClientDependencyException clientDependencyException)
+            {
+                loggingBroker.LoggingError(clientDependencyException);
+
+                throw clientDependencyException;
+            }
+            catch (ClientServiceException clientServiceException)
+            {
+                loggingBroker.LoggingError(clientServiceException);
+
+                throw clientServiceException;
+            }
+            catch (Exception exception)
+            {
+                loggingBroker.LoggingError(exception);
+
+                throw;
+            }
         }
     }
 }
