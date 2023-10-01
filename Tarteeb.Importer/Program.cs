@@ -4,10 +4,14 @@
 //===============================
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tarteeb.Importer.Brokers.DataTimes;
+using Tarteeb.Importer.Brokers.Loggings;
 using Tarteeb.Importer.Brokers.Storages;
 using Tarteeb.Importer.Models.Clients;
+using Tarteeb.Importer.Models.Clients.Exceptions;
 using Tarteeb.Importer.Services.Clients;
 
 namespace Tarteeb.Importer
@@ -16,6 +20,7 @@ namespace Tarteeb.Importer
     {
         static async Task Main(string[] args)
         {
+            LoggingBroker loggingBroker = new LoggingBroker();
             ClientService clientService = new ClientService(
                 storageBroker: new StorageBroker(),
                 dateTimeBroker: new DateTimeBroker());
@@ -23,17 +28,31 @@ namespace Tarteeb.Importer
             var client = new Client
             {
                 Id = Guid.NewGuid(),
-                Firstname = "",
-                Lastname = "",
+                Firstname = "John",
+                Lastname = "Doe",
                 BirthDate = DateTimeOffset.Parse("1/1/2010"),
-                Email = "johndoejcc.com",
+                Email = "johndoe@jcc.com",
                 PhoneNumber = "+1111111111",
                 GroupId = Guid.NewGuid()
             };
 
-            var persistedClient = await clientService.AddClientAsync(client);
+            try
+            {
+                var persistedClient = await clientService.AddClientAsync(client);
 
-            Console.WriteLine(persistedClient.Id);
+                Console.WriteLine(persistedClient.Id);
+            }
+            catch (ClientValidationException clientValidationException)
+            when (clientValidationException.InnerException is InvalidClientException invalidClientExceception)
+            {
+                foreach (DictionaryEntry entry in invalidClientExceception.Data)
+                {
+                    string errorSummary = string.Join(", ", (List<string>)entry.Value);
+
+                    Console.WriteLine(entry.Key + " - " + errorSummary);
+                }
+                Console.WriteLine($"Message: {invalidClientExceception.Message}");
+            }
         }
     }
 }
