@@ -74,13 +74,13 @@ namespace Tarteeb.Importer.Services.Clients
         private dynamic IsInvalidEmail(string email) => new
         {
             Condition = !Regex.IsMatch(email, @"^(.+)@(.+)$"),
-            Message = "Email is invalide"
+            Message = "Email is invalid"
         };
 
         private dynamic IsInvalidPhoneNumber(string phoneNumber) => new
         {
-            Condition = !Regex.IsMatch(phoneNumber, @"^\+?[1-9][0-9]{7,14}$"), 
-            Message = "Phone number is invalide"
+            Condition = !Regex.IsMatch(phoneNumber, @"^\+?[1-9][0-9]{7,14}$"),
+            Message = "Phone number is invalid"
         };
 
         private void Validate(params (dynamic Rule, string Parameter)[] validations)
