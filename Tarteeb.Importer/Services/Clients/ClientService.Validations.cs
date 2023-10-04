@@ -1,4 +1,4 @@
-﻿//=================================
+//=================================
 // Copyright (c) Tarteeb LLC.
 // Powering True Leadership
 //===============================
@@ -73,7 +73,7 @@ namespace Tarteeb.Importer.Services.Clients
         private dynamic IsInvalidEmail(string email) => new
         {
             Condition = !Regex.IsMatch(email, @"^(.+)@(.+)$"),
-            Message = "Email is invalide"
+            Message = "Email is invalid"
         };
 
         private void Validate(params (dynamic Rule, string Parameter)[] validations)
