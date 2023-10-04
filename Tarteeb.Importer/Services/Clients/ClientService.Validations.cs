@@ -1,4 +1,4 @@
-﻿//=================================
+//=================================
 // Copyright (c) Tarteeb LLC.
 // Powering True Leadership
 //===============================
@@ -27,8 +27,7 @@ namespace Tarteeb.Importer.Services.Clients
                 (Rule: IsInvalid(client.Email), Parameter: nameof(client.Email)));
 
             Validate(
-            (Rule: IsInvalidEmail(client.Email), Parameter: nameof(client.Email)),
-            (Rule: IsInvalidPhoneNumber(client.PhoneNumber), Parameter: nameof(client.PhoneNumber)));
+            (Rule: IsInvalidEmail(client.Email), Parameter: nameof(client.Email)));
         }
 
         private void ValidateClientNotNull(Client client)
@@ -75,12 +74,6 @@ namespace Tarteeb.Importer.Services.Clients
         {
             Condition = !Regex.IsMatch(email, @"^(.+)@(.+)$"),
             Message = "Email is invalid"
-        };
-
-        private dynamic IsInvalidPhoneNumber(string phoneNumber) => new
-        {
-            Condition = !Regex.IsMatch(phoneNumber, @"^\+?[1-9][0-9]{7,14}$"),
-            Message = "Phone number is invalid"
         };
 
         private void Validate(params (dynamic Rule, string Parameter)[] validations)
