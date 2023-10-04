@@ -4,7 +4,6 @@
 //===============================
 
 using System;
-using Tarteeb.Importer.Models.Clients.Exceptions;
 
 namespace Tarteeb.Importer.Brokers.Loggings
 {
