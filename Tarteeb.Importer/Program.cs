@@ -30,7 +30,6 @@ namespace Tarteeb.Importer
 
             for (int clientIndex = 0; clientIndex <= 2000; clientIndex++)
             {
-
                 var client = new Client
                 {
                     Id = fake.Random.Guid(),
