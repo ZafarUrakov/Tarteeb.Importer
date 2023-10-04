@@ -3,6 +3,7 @@
 // Powering True Leadership
 //===============================
 
+using Bogus;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,57 +26,57 @@ namespace Tarteeb.Importer
                 storageBroker: new StorageBroker(),
                 dateTimeBroker: new DateTimeBroker());
 
-            var client = new Client
-            {
-                Id = Guid.NewGuid(),
-                Firstname = "John",
-                Lastname = "Doe",
-                BirthDate = DateTimeOffset.Parse("1/1/2010"),
-                Email = "johndoe@jcc.com",
-                PhoneNumber = "+1111111111",
-                GroupId = Guid.NewGuid()
-            };
+            var fake = new Faker();
 
-            try
+            for (int clientIndex = 0; clientIndex <= 2000; clientIndex++)
             {
-                var persistedClient = await clientService.AddClientAsync(client);
 
-                Console.WriteLine(persistedClient.Id);
-            }
-            catch (ClientValidationException clientValidationException)
-            when (clientValidationException.InnerException is InvalidClientException invalidClientExceception)
-            {
-                foreach (DictionaryEntry entry in invalidClientExceception.Data)
+                var client = new Client
                 {
-                    string errorSummary = string.Join(", ", (List<string>)entry.Value);
+                    Id = fake.Random.Guid(),
+                    Firstname = fake.Name.FindName(),
+                    Lastname = fake.Name.LastName(),
+                    BirthDate = fake.Date.PastOffset(20, DateTime.Now.AddYears(-18)),
+                    Email = fake.Internet.Email(),
+                    PhoneNumber = "+" + fake.Phone.PhoneNumber(),
+                    GroupId = fake.Random.Guid()
+                };
 
-                    Console.WriteLine(entry.Key + " - " + errorSummary);
+                try
+                {
+                    var persistedClient = await clientService.AddClientAsync(client);
+
+                    Console.WriteLine($"Client with id {persistedClient.Id} added.");
                 }
-                Console.WriteLine($"Message: {invalidClientExceception.Message}");
-            }
-            catch (ClientDependencyValidationException clientDependencyValidationException)
-            {
-                loggingBroker.LoggingError(clientDependencyValidationException);
+                catch (ClientValidationException clientValidationException)
+                when (clientValidationException.InnerException is InvalidClientException invalidClientExceception)
+                {
+                    foreach (DictionaryEntry entry in invalidClientExceception.Data)
+                    {
+                        string errorSummary = string.Join(", ", (List<string>)entry.Value);
 
-                throw clientDependencyValidationException;
-            }
-            catch (ClientDependencyException clientDependencyException)
-            {
-                loggingBroker.LoggingError(clientDependencyException);
+                        Console.WriteLine(entry.Key + " - " + errorSummary);
+                    }
+                    Console.WriteLine($"Message: {invalidClientExceception.Message}");
+                }
+                catch (ClientDependencyValidationException clientDependencyValidationException)
+                {
+                    loggingBroker.LoggingError(clientDependencyValidationException);
 
-                throw clientDependencyException;
-            }
-            catch (ClientServiceException clientServiceException)
-            {
-                loggingBroker.LoggingError(clientServiceException);
+                    throw clientDependencyValidationException;
+                }
+                catch (ClientDependencyException clientDependencyException)
+                {
+                    loggingBroker.LoggingError(clientDependencyException);
 
-                throw clientServiceException;
-            }
-            catch (Exception exception)
-            {
-                loggingBroker.LoggingError(exception);
+                    throw clientDependencyException;
+                }
+                catch (ClientServiceException clientServiceException)
+                {
+                    loggingBroker.LoggingError(clientServiceException);
 
-                throw;
+                    throw clientServiceException;
+                }
             }
         }
     }
